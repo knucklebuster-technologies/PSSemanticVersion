@@ -1,14 +1,33 @@
 
 
 function New-SemanticVersion {
+    Param (
+        [Int64]$Major          = 0,
+        [Int64]$Minor          = 0,
+        [Int64]$Patch          = 0,
+        [String]$PrereleaseTag = '',
+        [String]$BuildMetadata = '',
+        [String]$LeadingV      = 'v'
+    )
     return [PSCustomObject]@{
-        Major          = [int64]::MinValue
-        Minor          = [int64]::MinValue
-        Patch          = [int54]::MinValue
-        PreRelease     = [string]::Empty
-        BuildMeatadata = [string]::Empty
-        OriginalString = [string]::Empty
-        LeadingV       = [string]::Empty
+        Major             = $Major
+        Minor             = $Minor
+        Patch             = $Patch
+        PreReleaseTag     = $PrereleaseTag
+        BuildMeatadata    = $BuildMetadata
+        LeadingV          = $LeadingV
+        OriginalString    = [string]::Empty
     } |
-    Add-Member -MemberType ScriptMethod -Name ToString -Value {$this} -Force -PassThru
+    Add-Member -MemberType ScriptMethod -Name ToString -Value {
+        $sb = $this.LeadingV + $this.Major + '.'
+        $sb = $sb + $this.Minor + '.'
+        $sb = $sb + $this.Patch
+        if ($this.PreRelease -ne [string]::Empty) {
+            $sb = $sb + '-' + $this.PreReleaseTag
+        }
+        if ($this.BuildMeatadata -ne [string]::Empty) {
+            $sb = $sb + '+' + $this.BuildMeatadata
+        }
+        return $sb
+    } -Force -PassThru
 }
