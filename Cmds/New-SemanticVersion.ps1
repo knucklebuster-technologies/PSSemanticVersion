@@ -25,7 +25,7 @@ function New-SemanticVersion {
         [String]$BuildMetadata  = [string]::Empty,
         [String]$LeadingV       = 'v'
     )
-
+    
     return [PSCustomObject]@{
         Major             = $Major
         Minor             = $Minor
@@ -54,28 +54,26 @@ function New-SemanticVersion {
 
         # Store the original passed in
         $this.OriginalString = $semver
-        # Extract the build metadata
-        $this.BuildMeatadata = $semver.Split('+')[-1]
-        # Extract the pre-release tag
-        $this.PreReleaseTag = $semver.Split('+')[0].Split('-')[-1]
-
-        # Get the version parts
-        $ver = $semver.Split('+')[0].Split('-')[0].Split('.')
-        # Store the patch
-        $this.Patch = $ver[2]
-        # Store the minor
-        $this.Minor = $ver[1]
-        # Store the major and leading v if one
-        $m = $ver[0]
-        if ($m[0] -eq 'v') {
-            $this.LeadingV = $m[0]
-            $this.Major = $m.Remove(0,1)
+        # Store the Leading v if exists
+        if ($semver -like "v*") {
+            $this.LeadingV = 'v'
         }
         else {
             $this.LeadingV = ''
-            $this.Major = $m
         }
 
+        # Process thru regex
+        $semver.Remove(0,1) -match "^(?<major>\d+)(\.(?<minor>\d+))?(\.(?<patch>\d+))?(\-(?<pre>[0-9A-Za-z\-\.]+))?(\+(?<build>[0-9A-Za-z\-\.]+))?$" | Out-Null
+        # Extract the build metadata
+        $this.BuildMeatadata = [string]$matches['build']
+        # Extract the pre-release tag
+        $this.PreReleaseTag  = [string]$matches['pre']
+        # Extract the patch
+        $this.Patch          = [uint64]$matches['patch']
+        # Extract the minor
+        $this.Minor          = [uint64]$matches['minor']
+        # Extract the major
+        $this.Major          = [uint64]$matches['major']
 
     } -Force -PassThru
 }
