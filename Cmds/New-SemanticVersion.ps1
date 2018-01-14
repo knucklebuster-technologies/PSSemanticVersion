@@ -1,6 +1,4 @@
 
-
-
 <#
 .SYNOPSIS
     Short description
