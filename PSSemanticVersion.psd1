@@ -21,7 +21,7 @@ FileList = @(
 )
 PrivateData = @{
     PSData = @{
-        Tags = @()
+        Tags = @('semver', 'version')
         LicenseUri = ''
         ProjectUri = ''
         IconUri = ''
@@ -29,7 +29,6 @@ PrivateData = @{
     }
 }
 HelpInfoURI = ''
-DefaultCommandPrefix = ''
 }
 
 

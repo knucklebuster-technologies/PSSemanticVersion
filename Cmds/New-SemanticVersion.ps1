@@ -1,18 +1,21 @@
 
 <#
 .SYNOPSIS
-    Short description
+    Returns a semver 2.0 compliant object
 .DESCRIPTION
-    Long description
+    Creates and returns a semantic version 2.0 compliant object.
+    Object provides methods to create a consistant System.Version
+    object based upon the SemVer values.
 .EXAMPLE
-    PS C:\> <example usage>
-    Explanation of what the example does
-.INPUTS
-    Inputs (if any)
-.OUTPUTS
-    Output (if any)
-.NOTES
-    General notes
+    PS C:\> $semver = New-SemanticVersion -Major 1 -Minor 0 -Patch 1 -BuildRevision 123 -PrereleaseTag Alpha
+    PS C:\> $Semver.ToString()
+    v1.0.1-Alpha+123
+
+    PS C:\> $Semver.ToMSVersion()
+
+    Major  Minor  Build  Revision
+    -----  -----  -----  --------
+    1      0      1      123
 #>
 function New-SemanticVersion {
     Param (
@@ -23,7 +26,7 @@ function New-SemanticVersion {
         [String]$PrereleaseTag  = [string]::Empty,
         [String]$LeadingV       = [string]::Empty
     )
-    
+
     return [PSCustomObject]@{
         Major             = $Major
         Minor             = $Minor
@@ -95,11 +98,11 @@ function New-SemanticVersion {
     Add-Member -MemberType ScriptMethod -Name ToMSVersion -Value {
         $semver = $this
         return [Version]::new(
-            $this.Major, 
-            $this.Minor, 
-            $this.Patch, 
+            $this.Major,
+            $this.Minor,
+            $this.Patch,
             $this.BuildRevision
-        ) | 
+        ) |
         Add-Member -MemberType NoteProperty -Name 'SemVer' -Value $semver -Force -PassThru
     } -Force -PassThru
 }
