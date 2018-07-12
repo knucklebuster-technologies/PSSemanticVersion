@@ -16,6 +16,16 @@
     Major  Minor  Build  Revision
     -----  -----  -----  --------
     1      0      1      123
+.EXAMPLE
+    PS C:\> $semver = New-SemanticVersion
+    PS C:\> $semver.Parse("v1.0.1-Alpha+123")
+    Major          : 1
+    Minor          : 0
+    Patch          : 1
+    PreReleaseTag  : Alpha
+    BuildRevision  : 123
+    LeadingV       : v
+    OriginalString : v1.0.1-Alpha+123
 #>
 function New-SemanticVersion {
     Param (
