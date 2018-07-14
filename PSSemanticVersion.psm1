@@ -1,3 +1,6 @@
+# Adding a .net type
+Add-Type -Path "$PSScriptRoot\objs\PSSemanticVersion.Version.cs"
+
 # Implement your module commands in this script.
 
 . "$PSScriptRoot\Cmds\New-SemanticVersion.ps1"

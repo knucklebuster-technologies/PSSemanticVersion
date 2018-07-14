@@ -1,6 +1,6 @@
 @{
 RootModule = 'PSSemanticVersion.psm1'
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.6.0'
 GUID = 'ee4c58ca-b5bb-4263-98b4-6dd295495596'
 Author = 'Paul H Cassidy (qawarrior)'
 CompanyName = 'Warrior IT Services'
@@ -12,20 +12,21 @@ Description = @'
     major.minor.patch-PR+BM -> major.minor.revision.build
 '@
 FileList = @(
-    '.\backup.cmd'
     '.\LICENSE'
     '.\README.md'
     '.\PSSemanticVersion.psd1'
     '.\PSSemanticVersion.psm1'
-    '.\Cmds\New-SemanticVersion.ps1'
+    '.\cmds\New-SemanticVersion.ps1'
+    '.\en-US\about_pssemanticversion.help.txt'
+    '.\objs\PSSemanticVersion.Version.cs'
 )
 PrivateData = @{
     PSData = @{
         Tags = @('semver', 'version')
-        LicenseUri = ''
-        ProjectUri = ''
+        LicenseUri = 'https://github.com/qawarrior/PSSemanticVersion/blob/master/LICENSE'
+        ProjectUri = 'https://github.com/qawarrior/PSSemanticVersion'
         IconUri = ''
-        ReleaseNotes = ''
+        ReleaseNotes = 'https://github.com/qawarrior/PSSemanticVersion/blob/master/README.md'
     }
 }
 HelpInfoURI = ''
