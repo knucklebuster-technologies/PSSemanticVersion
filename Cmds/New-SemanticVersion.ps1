@@ -85,6 +85,28 @@ function New-SemanticVersion {
     return $this
 
 } -Force
+    # FromVersionJson
+    $obj | Add-Member -MemberType ScriptMethod -Name FromVersionJson -Value {
+        Param (
+            [string]$path
+        )
+
+        $version = Get-Content -Path $path | ConvertFrom-Json
+        $this.Major = $version.Major
+        $this.Minor = $version.Minor
+        $this.Patch = $version.Patch
+        $this.Build = $version.Build
+        $this.Tag = $version.Tag
+        $this.LeadingV = $version.LeadingV
+        $this.ParsedString = $version.ParsedString
+    } -Force
+    # ToVersionJson
+    $obj | Add-Member -MemberType ScriptMethod -Name ToVersionJson -Value {
+        Param (
+            [string]$path
+        )
+        $this | ConvertTo-Json | Out-File -FilePath $path
+    }
     # FromSystemVersion takes a System.Version and extracts obj properties
     $obj | Add-Member -MemberType ScriptMethod -Name FromSystemVerion -Value {
     Param (

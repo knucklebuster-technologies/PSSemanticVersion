@@ -1,3 +1,6 @@
+$manifest = "$PSScriptRoot\PSSemanticVersion.psd1"
+$versionJson = "$PSScriptRoot\version.json"
+
 # Update FileList in manifest
 $FileList = @(
     'README.md'
@@ -8,13 +11,16 @@ $FileList = @(
 $FileList += Get-ChildItem "$PSScriptRoot\objs" | Resolve-Path -Relative
 $FileList += Get-ChildItem "$PSScriptRoot\en-US" | Resolve-Path -Relative
 $FileList += Get-ChildItem "$PSScriptRoot\cmds" | Resolve-Path -Relative
-Update-ModuleManifest -Path "$PSScriptRoot\PSSemanticVersion.psd1" -FileList $FileList
+#Update-ModuleManifest -Path "$PSScriptRoot\PSSemanticVersion.psd1" -FileList $FileList
+
+# Import Module for use
+Import-Module $manifest -Force
 
 # Update Version in Manifest
-$Version = Get-Content -Path "$PSScriptRoot\version.json" | ConvertFrom-Json
+$Version = New-SemanticVersion
+$Version.FromVersionJson($versionJson)
 $Version.Patch++
-$Version | ConvertTo-Json | Out-File -FilePath "$PSScriptRoot\version.json"
-$mv = [Version]::new($Version.Major, $Version.Minor, $Version.Patch, $Version.Build)
-Update-ModuleManifest -Path "$PSScriptRoot\PSSemanticVersion.psd1" -ModuleVersion "$mv"
+$Version.ToVersionJson($versionJson)
+Update-ModuleManifest -Path $manifest -ModuleVersion $Version.ToSystemVersion()
 
 Publish-Module -Path $PSScriptRoot -NuGetApiKey $APIKey
