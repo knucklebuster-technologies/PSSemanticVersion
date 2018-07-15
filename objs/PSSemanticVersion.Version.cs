@@ -13,7 +13,7 @@ namespace PSSemanticVersion
         public String ParsedString { get; set; }
 
         public Version() {
-            this.LeadingV = true;
+            this.LeadingV = false;
         }
 
         public Version(UInt64 major, UInt64 minor, UInt64 patch, UInt64 build, string tag)
@@ -23,7 +23,7 @@ namespace PSSemanticVersion
             this.Patch = patch;
             this.Build = build;
             this.Tag = tag;
-            this.LeadingV = true;
+            this.LeadingV = false;
         }
     }
 }
