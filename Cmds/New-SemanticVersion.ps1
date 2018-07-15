@@ -7,7 +7,8 @@
     default or supplied parameters. the returned object has a
     set of ScriptMethods to help with using the object.
     METHODS:
-    ToString - Returns a semver 2.0 formatted string
+    ToString - Returns a semver 2.0 formatted string example:
+        v1.0.13-ctp+123
     Parse - Takes a semver 2.0 formatted string
         (1.0.23-ctp+123) and sets the objects properties
         from the formatted string. Returns True if updated
@@ -20,6 +21,15 @@
         version.json file. The file is recreated each
         time the object is serialized to json. Returns
         True if file is created and False if it is not.
+    FromSystemVersion - Takes a System.Version object and
+        updates the current semver object. Returns True if
+        updated and False if not updated. Allows a consistant
+        way to convert from System.Version to PSSemanticVersion.Version.
+    ToSystemVersion - Returns a System.Version object based
+        on the values of current semver object. the current
+        semver object is attached to the System.Version as a
+        NoteProperty named SemVer. Allows a consistant way to
+        convert from PSSemanticVersion.Version to System.Version.
 .PARAMETER Major
     Sets the Major property on the returned object.
     This is the first section in SemVer 2.0 and appears

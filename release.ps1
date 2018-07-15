@@ -1,5 +1,5 @@
 $manifest = "$PSScriptRoot\PSSemanticVersion.psd1"
-$versionJson = "$PSScriptRoot\version.json"
+$versionJson = "$PSScriptRoot"
 
 # Update FileList in manifest
 $FileList = @(
@@ -18,9 +18,9 @@ Import-Module $manifest -Force
 
 # Update Version in Manifest
 $Version = New-SemanticVersion
-$Version.FromVersionJson($versionJson)
+$Version.FromVersionJson($versionJson) | Out-Null
 $Version.Patch++
-$Version.ToVersionJson($versionJson)
+$Version.ToVersionJson($versionJson) | Out-Null
 Update-ModuleManifest -Path $manifest -ModuleVersion $Version.ToSystemVersion()
 
 Publish-Module -Path $PSScriptRoot -NuGetApiKey $APIKey
